@@ -20,6 +20,14 @@ public class Site {
 	@Autowired
 	private TodoRepository todoRepo;
 	
+	public Long addPerson(Person e){
+		persRepo.save(e);
+		return e.getId();
+	}
 	
+	
+	public List<Person> getPersons(){
+		return persRepo.findAll();
+	}
 	
 }

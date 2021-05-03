@@ -1,19 +1,21 @@
 package com.jb.todoServer.bl;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.jb.todoServer.beans.Person;
+
+import com.jb.todoServer.repo.PersonRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jb.todoServer.beans.Person;
-import com.jb.todoServer.repo.PersonRepository;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
-public class SiteManager {
+public class PersonManager {
  
 	@Autowired
 	PersonRepository repo;
+
 	
 	public List<Person> getAllPersons()
 	{
@@ -30,21 +32,20 @@ public class SiteManager {
 		Person existingPerson = this.repo.findPersonByName(person.getName());
 		if(existingPerson != null )
 		{
-			throw new Exception("Employee "+ person.getName() +" alread exists");
+			throw new Exception("Person "+ person.getName() +" alread exists");
 		}
 		this.repo.save(person);
 	}
 	
-	
-	public Employee getEmployee(long id) throws Exception {
+	public Person getPerson(long id) throws Exception {
 		// TODO Auto-generated method stub
 
-		Employee existingEmployee = this.repo.getEmployeeById(id);
-		if(existingEmployee !=null)
+		Person existingPerson = this.repo.getPersonById(id);
+		if(existingPerson !=null)
 		{
-			return existingEmployee;
+			return existingPerson;
 		}
-		throw new Exception("Employee "+ id +" not exists!!!!");		
+		throw new Exception("Person "+ id +" not exists!!!!");		
 	}
-	
+
 }
