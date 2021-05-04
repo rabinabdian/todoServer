@@ -5,6 +5,7 @@ import com.jb.todoServer.beans.Person;
 import com.jb.todoServer.repo.PersonRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -48,7 +49,27 @@ public class PersonManager {
 		throw new Exception("Person "+ id +" not exists!!!!");		
 	}
 
-	public Person findPersonByName(String userName) {
-		return repo.findPersonByName(userName);
+	public Person findPersonByName(String userName) throws UsernameNotFoundException {
+
+		Person user = repo.findPersonByName(userName);
+		if(user != null) {
+
+			return user;
+		} else {
+			throw new UsernameNotFoundException("username not found");
+		}
 	}
+
+
+	public Person loadUserByUsername(String userName) throws UsernameNotFoundException {
+
+		Person user = repo.findPersonByName(userName);
+		if(user != null) {
+
+			return user;
+		} else {
+			throw new UsernameNotFoundException("username not found");
+		}
+	}
+
 }
