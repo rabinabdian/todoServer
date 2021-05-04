@@ -48,4 +48,7 @@ public class PersonManager {
 		throw new Exception("Person "+ id +" not exists!!!!");		
 	}
 
+	public Person findPersonByName(String userName) {
+		return repo.findPersonByName(userName);
+	}
 }
