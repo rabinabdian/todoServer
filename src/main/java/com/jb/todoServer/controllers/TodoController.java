@@ -2,6 +2,7 @@ package com.jb.todoServer.controllers;
 
 import com.jb.todoServer.beans.PayloadTodo;
 import com.jb.todoServer.beans.Person;
+import com.jb.todoServer.beans.PriorityTodo;
 import com.jb.todoServer.beans.Todo;
 import com.jb.todoServer.bl.TodoManager;
 import com.jb.todoServer.repo.PersonRepository;
@@ -48,9 +49,6 @@ public class TodoController {
 	 */
 	public ResponseEntity<?> addTodo(@RequestBody Todo todo)
 	{
-
-
-
 		try
 		{
 			this.todoManager.addTodo(todo);
@@ -107,6 +105,7 @@ public class TodoController {
 
 	}
 
+	@CrossOrigin
 	@PutMapping("updateTodo/{todoId}")
 	/**
 	 * This update
@@ -114,13 +113,27 @@ public class TodoController {
 	 * @param todo
 	 * @return
 	 */
-	public ResponseEntity<Todo> updateTodo(@PathVariable(value = "todoId") int todoId, @RequestBody PayloadTodo payload)
+	public ResponseEntity<Todo> updateTodo(@PathVariable(value = "todoId") int todoId, @RequestBody Todo payload)
 	{
 		Todo todBeforeUpdate = repoTodo.findTodoById(todoId);
-		if (!todBeforeUpdate.getDescription().equalsIgnoreCase(payload.getUpdateDescription()))
-			todBeforeUpdate.setDescription(payload.getUpdateDescription());
-		if ( todBeforeUpdate.isCompleted() != payload.isUpdateCompleted())
-			todBeforeUpdate.setCompleted(payload.isUpdateCompleted());
+		if (payload.getTitle()==null)
+			todBeforeUpdate.setTitle("missing data");
+		if (!todBeforeUpdate.getTitle().equalsIgnoreCase(payload.getTitle()))
+			todBeforeUpdate.setTitle(payload.getTitle());
+		if (payload.getDescription()==null)
+			todBeforeUpdate.setDescription("missing data");
+		if (!todBeforeUpdate.getDescription().equalsIgnoreCase(payload.getDescription()))
+			todBeforeUpdate.setDescription(payload.getDescription());
+		if ( todBeforeUpdate.isCompleted() != payload.isCompleted())
+			todBeforeUpdate.setCompleted(payload.isCompleted());
+		if ( payload.getColor()==null )
+			todBeforeUpdate.setColor("white");
+		if ( todBeforeUpdate.getColor() != payload.getColor() )
+			todBeforeUpdate.setColor(payload.getColor());
+		if ( payload.getPriorityTodo()==null )
+			todBeforeUpdate.setPriorityTodo(PriorityTodo.DEFAULT);
+		if ( todBeforeUpdate.getPriorityTodo() != payload.getPriorityTodo() )
+			todBeforeUpdate.setColor(payload.getColor());
 
 		final Todo updatedTodo = repoTodo.save(todBeforeUpdate);
 		//this.productManager.updateProduct(updatedProduct);

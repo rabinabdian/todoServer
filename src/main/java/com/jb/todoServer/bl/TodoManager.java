@@ -22,6 +22,8 @@ public class TodoManager {
 	public void addTodo(Todo todo) throws Exception {
 		// TODO Auto-generated method stub
 
+		if (todo.getPerson() == null)
+			todo.setPerson(new Person("user","user"));
 
 		Person existingPerson = this.repo.findPersonByName(todo.getPerson().getName());
 		if(existingPerson == null )

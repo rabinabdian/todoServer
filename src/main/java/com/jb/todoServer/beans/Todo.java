@@ -36,6 +36,7 @@ public class Todo {
 	@Column
 	private String description;
 
+	@Enumerated(EnumType.STRING)
 	@Column
 	@ApiModelProperty
 	private PriorityTodo priorityTodo;
